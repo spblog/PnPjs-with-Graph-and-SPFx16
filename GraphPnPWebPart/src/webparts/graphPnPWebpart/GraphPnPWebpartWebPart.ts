@@ -8,6 +8,9 @@ import { escape } from '@microsoft/sp-lodash-subset';
 
 import styles from './GraphPnPWebpartWebPart.module.scss';
 import * as strings from 'GraphPnPWebpartWebPartStrings';
+import { GraphTokenFetchClient } from "../../GraphTokenFetchClient";
+import { graph } from "@pnp/graph";
+import { AadTokenProvider } from '@microsoft/sp-http';
 
 export interface IGraphPnPWebpartWebPartProps {
   description: string;
@@ -15,21 +18,36 @@ export interface IGraphPnPWebpartWebPartProps {
 
 export default class GraphPnPWebpartWebPart extends BaseClientSideWebPart<IGraphPnPWebpartWebPartProps> {
 
+  public onInit(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.context.aadTokenProviderFactory
+        .getTokenProvider()
+        .then((tokenProvider: AadTokenProvider) => {
+
+          graph.setup({
+            graph: {
+              fetchClientFactory: () => {
+                return new GraphTokenFetchClient(tokenProvider);
+              }
+            }
+          });
+
+          resolve();
+        })
+        .catch(reject);
+    });
+  }
+
   public render(): void {
+
+    graph.groups.get()
+      .then((data) => {
+        console.log(data);
+      });
+
     this.domElement.innerHTML = `
-      <div class="${ styles.graphPnPWebpart }">
-        <div class="${ styles.container }">
-          <div class="${ styles.row }">
-            <div class="${ styles.column }">
-              <span class="${ styles.title }">Welcome to SharePoint!</span>
-              <p class="${ styles.subTitle }">Customize SharePoint experiences using Web Parts.</p>
-              <p class="${ styles.description }">${escape(this.properties.description)}</p>
-              <a href="https://aka.ms/spfx" class="${ styles.button }">
-                <span class="${ styles.label }">Learn more</span>
-              </a>
-            </div>
-          </div>
-        </div>
+      <div class="${ styles.graphPnPWebpart}">
+        hello world
       </div>`;
   }
 

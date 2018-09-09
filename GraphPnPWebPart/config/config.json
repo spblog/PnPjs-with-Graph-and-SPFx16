@@ -11,7 +11,9 @@
       ]
     }
   },
-  "externals": {},
+  "externals": {
+    "@pnp/sp": "https://cdnjs.cloudflare.com/ajax/libs/pnp-pnpjs/1.2.1/pnpjs.es5.umd.bundle.min.js"
+  },
   "localizedResources": {
     "GraphPnPWebpartWebPartStrings": "lib/webparts/graphPnPWebpart/loc/{locale}.js"
   }

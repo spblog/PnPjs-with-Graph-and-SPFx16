@@ -4,7 +4,13 @@
     "name": "graph-pnp-webpart-client-side-solution",
     "id": "6e2d5aca-dd4c-4111-ac06-ce6c5c0a0556",
     "version": "1.0.0.0",
-    "includeClientSideAssets": true
+    "includeClientSideAssets": true,
+    "webApiPermissionRequests": [
+      {
+        "resource": "Microsoft Graph",
+        "scope": "Group.Read.All"
+      }
+    ]
   },
   "paths": {
     "zippedPackage": "solution/graph-pnp-webpart.sppkg"
