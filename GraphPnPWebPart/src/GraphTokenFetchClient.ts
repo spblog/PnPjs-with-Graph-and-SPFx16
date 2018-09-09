@@ -7,7 +7,7 @@ export class GraphTokenFetchClient extends BearerTokenFetchClient {
     }
 
     public fetch(url: string, options: FetchOptions = {}): Promise<Response> {
-        return this.tokenProvider.getToken('https://graph.microsoft.com/')
+        return this.tokenProvider.getToken('https://graph.microsoft.com')
             .then((accessToken: string) => {
                 this.token = accessToken;
                 return super.fetch(url, options);
